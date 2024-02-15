@@ -17,6 +17,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import java.util.List;
 
 public class ChannelHandlers extends TelegramLongPollingBot {
+    private String username;
+    public ChannelHandlers withUsername(String username){
+        this.username = username;
+        return this;
+    }
     @Override
     public void onUpdateReceived(Update update) {
         try {
@@ -38,7 +43,7 @@ public class ChannelHandlers extends TelegramLongPollingBot {
             }
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(update.getMessage().getChatId());
-            sendMessage.setText("Your group chat id is: " + update.getMessage().getChatId().toString());
+            sendMessage.setText("Your current group chat id is: " + update.getMessage().getChatId().toString());
             sendMessage.setReplyMarkup(ReplyKeyboardMarkup.builder()
                     .inputFieldPlaceholder("Show chat id")
                     .oneTimeKeyboard(true)
@@ -48,7 +53,9 @@ public class ChannelHandlers extends TelegramLongPollingBot {
                                     )
                             ))).build());
             execute(sendMessage);
-
+            SendMessage showUsernameMessage = SendMessage.builder().chatId(update.getMessage().getChatId())
+                    .text("If you have other group. Copy exactly my name: " +this.username + " and add me to your group.").build();
+            execute(showUsernameMessage);
         } catch (TelegramApiException e) {
             System.out.println(e.getMessage());
         }

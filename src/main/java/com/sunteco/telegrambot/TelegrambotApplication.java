@@ -12,6 +12,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 public class TelegrambotApplication {
 	@Value("stc.telegram.token:")
 	private String token;
+
 	@PostConstruct
 	@SneakyThrows
 	void init(){
@@ -24,9 +25,10 @@ public class TelegrambotApplication {
 	@SneakyThrows
 	public static void main(String[] args) {
 		TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-		telegramBotsApi.registerBot(new ChannelHandlers(""));
+		System.out.println();
+		telegramBotsApi.registerBot(new ChannelHandlers(System.getenv("sunteco")).withUsername("@suntecocloudbot"));
 		//Sunteco
-		telegramBotsApi.registerBot(new ChannelHandlers(""));
+		telegramBotsApi.registerBot(new ChannelHandlers(System.getenv("dangnguyen")).withUsername("@testdangtonybot"));
 	}
 
 }
